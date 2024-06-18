@@ -19,5 +19,10 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "run": "^1.5.0",
+    "styled-jsx": "^5.1.6",
+    "vite": "^5.3.1"
+  }
 }
