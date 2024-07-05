@@ -1,0 +1,20 @@
+{
+  "name": "schema-zod",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "exports": {
+    "./Signup-schema": "./signup-schema.js",
+    "./login-schema":"./login-schema.js"
+  },
+  "dependencies": {
+    "validator": "^13.12.0"
+  }
+}
