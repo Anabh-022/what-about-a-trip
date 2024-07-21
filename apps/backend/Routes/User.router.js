@@ -80,3 +80,24 @@ UserRouter.post("/delete",(req,res)=>{
 UserRouter.put("/edit",(req,res)=>{
     res.json({aaina:"Ankit is Brother"})
 })
+
+
+//auth  for ws server
+UserRouter.post("/auth",(req,res)=>{
+    try{
+        const {tk} = req.body;
+        let user=null;
+        try{
+            user = jwt.verify(tk,'password');
+        }
+        catch(e){
+            return res.status(400).json({error:"Usr not found"});
+        }
+        
+        res.json(user);
+    }
+    catch(e){
+        console.log(`${Date.now} Error at user auth route`, e);
+        res.status(500).json({msg:"Internal Server Error"});
+    }
+})
