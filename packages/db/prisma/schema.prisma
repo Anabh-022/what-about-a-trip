@@ -13,22 +13,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user{
-  id String @id @default(uuid())
-  userName String @unique
-  firstName String 
-  lastName String
-  contact String @unique
-  email String @unique
-  password String @default("")
-  createdAt DateTime @default(now())
-  blogs blog[]
+model user {
+  id        String     @id @default(uuid())
+  userName  String     @unique
+  firstName String
+  lastName  String
+  contact   String     @unique
+  email     String     @unique
+  password  String     @default("")
+  createdAt DateTime   @default(now())
+  blogs     blog[]
+  chats     chatRoom[]
 }
-model blog{
-  blog_id String @id @default(uuid())
-  title String 
-  content String
+
+model blog {
+  blog_id   String   @id @default(uuid())
+  title     String
+  content   String
   createdAt DateTime @default(now())
-  author user @relation(fields: [author_id], references: [id])
-  author_id String 
+  author    user     @relation(fields: [author_id], references: [id])
+  author_id String
+}
+
+model chatRoom {
+  chatId    String   @id @default(uuid())
+  author    user     @relation(fields: [userID], references: [id])
+  userID    String
+  message   String
+  createdAt DateTime @default(now())
 }

@@ -1,8 +1,11 @@
 import express from "express";
 import { WebSocket, WebSocketServer } from "ws";
 import { authenticate } from "./lib/auth.js"
+import { UserManager } from "./managers/userManager.js";
+import { db } from "@repo/database/client"
 
 const app = express();
+const userManager = new UserManager();
 const httpServer = app.listen(8080, () => {
   console.log(`${Date.now()} websocket server started at port 8080`);
 });
@@ -11,7 +14,7 @@ const wss = new WebSocketServer({ noServer: true });
 
 httpServer.on("upgrade", async (request, socket, head) => {
   const authed = await authenticate(request);
-  if (!authed) {
+  if (!authed.success) {
     socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n')
     socket.destroy()
     return
@@ -21,14 +24,20 @@ httpServer.on("upgrade", async (request, socket, head) => {
     wss.emit('connection', connection, request);
   })
   wss.on("connection", (ws) => {
-    ws.on("message", (data, isBinary) => {
-      console.log(data);
-      //todo update in DB
-      wss.clients.forEach((client) => {     //itearte over all current clients
-        if (client.readyState === WebSocket.OPEN) {  //check for socket state
-          client.send(data, { binary: isBinary })
+    console.log("inside connection");
+    userManager.addUser(authed.user.id, ws);
+    ws.on("message", async (data, isBinary) => {
+      //console.log(data);
+      const payload = JSON.parse(data);
+      console.log(typeof (payload));
+      db.chatRoom.create({
+        data: {
+          message: data,
+          userId: payload.userId
         }
       })
+
+      userManager.brodcast(payload.userId, payload.message, isBinary);
     })
   })
 

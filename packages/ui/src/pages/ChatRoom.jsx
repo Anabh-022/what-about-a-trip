@@ -5,9 +5,10 @@ const ChatRoom = () => {
   const mess = useRef();
   const [socket, setSocket] = useState();
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8080?tk=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImYyNzU5YzE1LWVlZTgtNGVlYy05ODZiLWE5Yjc0NjdmOWRkNiIsImlhdCI6MTcyMTI4OTI2NH0.-SIAr_OivudPFomY9O3CvVBUmr37ZTtkxAlU0q8q_K4");
+    const token = localStorage.getItem("token");
+    const ws = new WebSocket(`ws://localhost:8080?tk=${token}`);
     ws.onopen = () => {
-      ws.send("init message")
+      //ws.send("init message")
     }
     ws.onmessage = (message) => {
       console.log(message.data);

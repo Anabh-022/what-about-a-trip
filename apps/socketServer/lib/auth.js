@@ -3,7 +3,7 @@ import { parse } from 'url'
 
 export const authenticate = async (request) => {
   const { tk } = parse(request.url, true).query
-  console.log(tk);
+  //  console.log(tk);
   let res;
   try {
     res = await axios.post("http://localhost:3000/api/v1/user/auth", {
@@ -12,8 +12,8 @@ export const authenticate = async (request) => {
   }
   catch (e) {
     //console.log(false);
-    return false;
+    return { success: false };
   }
   //console.log(res.data);
-  return true;
+  return { success: true, user: res.data };
 }
