@@ -1,5 +1,5 @@
 import express from "express";
-import { WebSocket, WebSocketServer } from "ws";
+import { WebSocketServer } from "ws";
 import { authenticate } from "./lib/auth.js"
 import { UserManager } from "./managers/userManager.js";
 import { db } from "@repo/database/client"
@@ -27,9 +27,7 @@ httpServer.on("upgrade", async (request, socket, head) => {
     console.log("inside connection");
     userManager.addUser(authed.user.id, ws);
     ws.on("message", async (data, isBinary) => {
-      //console.log(data);
       const payload = JSON.parse(data);
-      console.log(typeof (payload));
       db.chatRoom.create({
         data: {
           message: data,
