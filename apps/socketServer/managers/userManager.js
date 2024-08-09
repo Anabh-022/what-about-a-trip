@@ -43,5 +43,6 @@ export class UserManager {
 
       value.send(message, { binary: isBinary });
     })
+    console.log(message);
   }
 }

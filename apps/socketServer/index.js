@@ -28,10 +28,11 @@ httpServer.on("upgrade", async (request, socket, head) => {
     userManager.addUser(authed.user.id, ws);
     ws.on("message", async (data, isBinary) => {
       const payload = JSON.parse(data);
-      db.chatRoom.create({
+      console.log(payload);
+      await db.chatRoom.create({
         data: {
-          message: data,
-          userId: payload.userId
+          message: payload.message,
+          userID: payload.userId
         }
       })
 
