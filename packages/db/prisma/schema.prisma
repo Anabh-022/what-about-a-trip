@@ -20,7 +20,7 @@ model user {
   lastName  String
   contact   String     @unique
   email     String     @unique
-  password  String     @default("")
+  password  String
   createdAt DateTime   @default(now())
   blogs     blog[]
   chats     chatRoom[]
@@ -37,8 +37,8 @@ model blog {
 
 model chatRoom {
   chatId    String   @id @default(uuid())
+  message   String
   author    user     @relation(fields: [userID], references: [id])
   userID    String
-  message   String
   createdAt DateTime @default(now())
 }
