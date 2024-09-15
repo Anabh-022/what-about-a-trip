@@ -12,7 +12,8 @@
   "description": "",
   "exports": {
     "./Signup-schema": "./signup-schema.js",
-    "./login-schema":"./login-schema.js"
+    "./login-schema": "./login-schema.js",
+    "./blogSchema": "./blog-schema.js"
   },
   "dependencies": {
     "validator": "^13.12.0"

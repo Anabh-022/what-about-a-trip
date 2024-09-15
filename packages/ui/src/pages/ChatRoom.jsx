@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { checkLogin } from '../../../../apps/frontend/lib/auth';
 import { BACKEND_URL } from '../../../../apps/frontend/lib/config';
@@ -11,6 +11,7 @@ const ChatRoom = () => {
   const mess = useRef();
   const [socket, setSocket] = useState();
   const [messages, setMessages] = useState([]);
+
   useEffect(() => {
     async function init() {
       const loggedIn = await checkLogin();
@@ -40,8 +41,6 @@ const ChatRoom = () => {
     }
     init();
   }, [])
-
-  console.log(messages)
 
   return (
     <>

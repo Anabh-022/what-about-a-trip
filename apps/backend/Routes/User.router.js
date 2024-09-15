@@ -4,6 +4,7 @@ import { db } from "@repo/database/client"
 import { signup_schema } from "schema-zod/Signup-schema"
 import { login_schema } from "schema-zod/login-schema"
 import jwt from "jsonwebtoken"
+import { authUser } from "../middleware/auth"
 
 export const UserRouter = Router()
 
@@ -22,12 +23,12 @@ UserRouter.post("/login", async (req, res) => {
 
     })
     if (!user) {
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ message: "Credentials didd'nt match" });
       return;
     }
     const match = await bcrypt.compare(body.password, user.password);
     if (!match) {
-      res.status(401).json({ message: "Incorrect details" })
+      res.status(401).json({ message: "Credentials didd'nt match" });
       return;
     }
     //res.json({message:"User logged in successfully"});
@@ -89,12 +90,18 @@ UserRouter.post("/signup", async (req, res) => {
   }
 })
 
-UserRouter.post("/delete", (req, res) => {
-  res.json({ aaina: "Ankit is Brother" })
+UserRouter.post("/delete", authUser, (req, res) => {
+  res.json({ aHaina: "Ankit is Brother" })
 })
 
-UserRouter.put("/edit", (req, res) => {
-  res.json({ aaina: "Ankit is Brother" })
+UserRouter.put("/edit", authUser, (req, res) => {
+  try {
+    const body = req.body;
+
+  }
+  catch (e) {
+
+  }
 })
 
 
